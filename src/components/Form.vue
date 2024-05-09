@@ -8,7 +8,7 @@
             </div>
             <div>
                   <label class="block mb-2 text-sm font-medium text-white ">Pie</label>
-                  <input v-model="downPayment" type="number" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="0" required />
+                  <input v-model="downPayment" type="number" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="UF" required />
             </div>
             <div>
                   <label class="block mb-2 text-sm font-medium text-white">Tasa de interés (% Anual)</label>
@@ -53,7 +53,6 @@ const calcularSueldo = () => {
     const valorPropiedad = parseFloat(propertyValue.value)
     const pie = parseFloat(downPayment.value)
     const plazo = parseInt(selectedAge.value)
-
     const tasaInteres = interestRate.value
     const tasaDecimal = tasaInteres / 100
     const montoCredito = valorPropiedad - pie
