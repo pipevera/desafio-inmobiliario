@@ -67,14 +67,14 @@ const calcularSueldo = () => {
    const sueldo = dividendoMensual * 4
 
    const sueldoFormateado = Math.round(sueldo)
-   console.log(sueldoFormateado)
+
 
    sueldoRequerido.value = sueldoFormateado;
 
    emit('update:sueldoRequerido', sueldoRequerido.value)
    emit('update:rentaMinima', rentaMinima.value)
 }
-console.log(rentaMinima)
+
 
 
 </script>
