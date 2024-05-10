@@ -10,10 +10,10 @@
       </div>
     </div>
     <div class="w-full lg:w-[1024px] flex justify-start gap-4 md:flex-wrap md:justify-center md:overflow-hidden overflow-scroll px-6 pb-6 md:px-16 md:p-6 ">
-      <Card v-for="(bank, index) in banksList" :bank="bank" @click="openModal"/>
+      <Card v-for="(bank, index) in banksList" :bank="bank" @click="openModal(bank)"/>
     </div>
     <div>
-      <Modal v-if="modal" @close-modal="closeModal"/>
+      <Modal v-if="modal" @close-modal="closeModal" :bankModal="selectedBank"/>
     </div>
   </div>
   <div :class="{ block: modal, hidden: !modal }" class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
@@ -31,9 +31,12 @@ const modal = ref(false)
 const banksList = ref({})
 const sueldoRequerido = ref(null)
 const rentaMinima = ref(null)
+const selectedBank = ref()
 
-const openModal = () => {
-  modal.value = !modal.value
+const openModal = (bank) => {
+  selectedBank.value = bank
+  //console.log(selectedBank.value)
+  modal.value = true
 }
 const closeModal = () => {
   modal.value = !modal.value;

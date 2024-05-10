@@ -5,12 +5,16 @@
          <h1 v-else class="">{{ bankData.name }}</h1>
       </div>
    </div>
+   
 </template>
 
 <script setup>
-import { computed } from 'vue'
-const props = defineProps(["bank"])
+import { computed, onMounted } from 'vue'
 
+const props = defineProps(["bank"])
+/* onMounted(() => {
+   console.log("Datos prop card", props.bank)
+}) */
 const bankData = computed(() => {
    let bank
    if(props.bank.length) {

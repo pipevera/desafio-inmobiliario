@@ -7,7 +7,7 @@
       
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                     Terms of Service
+                    {{ bankName }}
                   </h3>
                   <button @click="$emit('close-modal')" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -16,71 +16,8 @@
                      <span class="sr-only">Close modal</span>
                   </button>
             </div>
-            <div class="p-4 md:p-5 space-y-4">
-               <div class="relative overflow-x-auto">
-                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                           <tr>
-                                 <th scope="col" class="px-6 py-3">
-                                    Product name
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                    Color
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                    Category
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                    Price
-                                 </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
-                                 </th>
-                                 <td class="px-6 py-4">
-                                    Silver
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    Laptop
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    $2999
-                                 </td>
-                           </tr>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Microsoft Surface Pro
-                                 </th>
-                                 <td class="px-6 py-4">
-                                    White
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    Laptop PC
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    $1999
-                                 </td>
-                           </tr>
-                           <tr class="bg-white dark:bg-gray-800">
-                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Magic Mouse 2
-                                 </th>
-                                 <td class="px-6 py-4">
-                                    Black
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    Accessories
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    $99
-                                 </td>
-                           </tr>
-                        </tbody>
-                     </table>
-               </div>
+            <div class="w-full flex justify-center items-center">
+               <a-table class="w-full" :dataSource="bankDataSource" :columns="columns" />
             </div>
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
                <button @click="$emit('close-modal')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Cerrar</button>
@@ -93,5 +30,61 @@
 </template>
 
 <script setup>
+import { ref, onMounted, computed } from 'vue';
+const props = defineProps(["bankModal"])
+
+const bankFormater = computed(() => props.bankModal.length ? props.bankModal : [props.bankModal])
+//reduce se ocupa para formatear la data para que funcione de acuerdo a como el componenente tabla
+const bankDataSource = computed(() => {
+   return bankFormater.value.reduce((acc, curr) => {
+      const element = {
+         key: "",
+         tasaDeInteres: curr.tasaDeInteres,
+         costoTotal: curr.costoTotal,
+         gastosOperacionales: curr.gastosOperacionales,
+         maximoPlazo: curr.maximoPlazo
+      }
+      return acc = [...acc, element]
+   }, [])
+})
+
+const bankName = computed(() => {
+   let bank
+   if(props.bankModal.length) {
+    bank = props.bankModal.find(element => Object.keys(element.banco).includes("imagen"))
+   } else {
+      bank = props.bankModal
+   }
+   return bank.banco.nombre
+   
+})
+
+const columns = ref([
+          {
+            title: 'Tasa de interés',
+            dataIndex: 'tasaDeInteres',
+            key: 'tasaDeInteres',
+          },
+          {
+            title: 'Costo Total',
+            dataIndex: 'costoTotal',
+            key: 'costoTotal',
+          },
+          {
+            title: 'Gastos operacionales',
+            dataIndex: 'gastosOperacionales',
+            key: 'gastosOperacionales',
+          },
+          {
+            title: 'Maximo plazo',
+            dataIndex: 'maximoPlazo',
+            key: 'maximoPlazo',
+          }
+          
+        ])      
+
+/* onMounted(() => {
+   console.log("DATOS DE LA PROP", (bankFormater.value))
+}) */
 defineEmits(["close-modal"]);
 </script>
