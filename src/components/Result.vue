@@ -1,5 +1,5 @@
 <template>
-   <div v-if="sueldoRequerido" class="mt-6 p-4 border rounded-sm space-y-3">
+   <div v-if="sueldoRequerido" class="mt-6 p-2 md:p-4 border rounded-sm space-y-3">
       <div>
          <p class="text-yellow-200 text-lg text-center">Resultado simulación</p>
       </div>

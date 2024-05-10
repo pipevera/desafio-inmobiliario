@@ -1,14 +1,11 @@
 <template>
-   <div class="flex justify-center bg-body ">
-      <div class="border rounded w-40 h-44 p-4 text-center ">
-         <img v-if="bankData.logo" :src="bankData.logo" alt="">
-         <h1 v-else class="text-white">{{ bankData.name }}</h1>
+   <div class=" bg-white rounded">
+      <div class="border flex justify-center items-center rounded w-32 h-30 md:w-36 md:h-34 p-2 text-center ">
+         <img v-if="bankData.logo" :src="bankData.logo" alt="" class="rounded">
+         <h1 v-else class="">{{ bankData.name }}</h1>
          <Modal  />
       </div>
-      
    </div>
-   
-   
 </template>
 
 <script setup>

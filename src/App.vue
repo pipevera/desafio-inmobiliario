@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-body w-full h-screen p-10">
+  <div class="bg-body w-full h-screen">
     <Suspense>
       <template #default>
         <Home />

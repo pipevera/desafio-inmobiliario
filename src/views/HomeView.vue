@@ -9,7 +9,7 @@
         <Result :sueldoRequerido="sueldoRequerido" :rentaMinima="rentaMinima" />
       </div>
     </div>
-    <div class="w-full flex gap-4 md:flex-wrap justify-start md:justify-center md:overflow-hidden overflow-scroll px-6">
+    <div class="w-full lg:w-[1024px] flex justify-start gap-4 md:flex-wrap md:justify-center md:overflow-hidden overflow-scroll px-6 pb-6 md:px-16 md:p-6 ">
       <Card v-for="(bank, index) in banksList" :bank="bank" />
     </div>
   </div>
