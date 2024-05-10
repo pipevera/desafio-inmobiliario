@@ -10,27 +10,34 @@
       </div>
     </div>
     <div class="w-full lg:w-[1024px] flex justify-start gap-4 md:flex-wrap md:justify-center md:overflow-hidden overflow-scroll px-6 pb-6 md:px-16 md:p-6 ">
-      <Card v-for="(bank, index) in banksList" :bank="bank" />
+      <Card v-for="(bank, index) in banksList" :bank="bank" @click="openModal"/>
+    </div>
+    <div>
+      <Modal v-if="modal" @close-modal="closeModal"/>
     </div>
   </div>
+  <div :class="{ block: modal, hidden: !modal }" class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
 </template>
 
 <script setup>
 import Form from '@/components/Form.vue'
 import Result from '@/components/Result.vue'
 import Card from '@/components/Card.vue'
+import Modal from '@/components/Modal.vue'
 import { ref, onMounted } from 'vue'
 import { getBanks } from '@/services/banks.js'
 
+const modal = ref(false)
 const banksList = ref({})
-
-onMounted(async () => {
-  banksList.value = await getBanks()
-})
-
 const sueldoRequerido = ref(null)
 const rentaMinima = ref(null)
 
+const openModal = () => {
+  modal.value = !modal.value
+}
+const closeModal = () => {
+  modal.value = !modal.value;
+}
 const handleSueldoRequerido = (value) => {
     sueldoRequerido.value = Number(value)
 }
@@ -38,8 +45,7 @@ const handleSueldoRequerido = (value) => {
 const handleRentaMinima = (value) => {
     rentaMinima.value = Number(value)
 }
+onMounted(async () => {
+  banksList.value = await getBanks()
+})
 </script>
-
-<style scoped>
-
-</style>

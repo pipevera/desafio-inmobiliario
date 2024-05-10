@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 const years = [
    {age: "5 años", value: 5},
    {age: "10 años", value: 10},
@@ -49,23 +49,32 @@ const sueldoRequerido = ref(null)
 const rentaMinima = computed(() => sueldoRequerido.value * 4)
 const emit = defineEmits(['update:sueldoRequerido', 'update:rentaMinima'])
 
+
 const calcularSueldo = () => {
-   const valorPropiedad = (propertyValue.value) 
-   const pie = parseFloat(downPayment.value)
+   const valorUF = 37312.63
+   const valorPropiedadUF = parseFloat(propertyValue.value)
+   const pieUF = parseFloat(downPayment.value)
    const plazo = parseInt(selectedAge.value)
-   const tasaInteres = interestRate.value
+   const tasaInteres = parseFloat(interestRate.value)
    const tasaDecimal = tasaInteres / 100
+   const valorPropiedad = valorPropiedadUF * valorUF
+   const pie = pieUF * valorUF
+
    const montoCredito = valorPropiedad - pie
    const numPagos = plazo * 12
    const interesMensual = tasaDecimal / 12
    const dividendoMensual = montoCredito * (interesMensual / (1 - Math.pow(1 + interesMensual, -numPagos)))
    const sueldo = dividendoMensual * 4
 
-   sueldoRequerido.value = sueldo.toFixed(2);
+   const sueldoFormateado = Math.round(sueldo)
+   console.log(sueldoFormateado)
+
+   sueldoRequerido.value = sueldoFormateado;
 
    emit('update:sueldoRequerido', sueldoRequerido.value)
    emit('update:rentaMinima', rentaMinima.value)
 }
+console.log(rentaMinima)
 
 
 </script>
