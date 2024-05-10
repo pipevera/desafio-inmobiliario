@@ -24,7 +24,7 @@
             </div>
          </div>
          
-         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Calcular</button>
+         <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Calcular</button>
       </form>
    </div>
 </template>
@@ -50,20 +50,21 @@ const rentaMinima = computed(() => sueldoRequerido.value * 4)
 const emit = defineEmits(['update:sueldoRequerido', 'update:rentaMinima'])
 
 const calcularSueldo = () => {
-    const valorPropiedad = parseFloat(propertyValue.value)
-    const pie = parseFloat(downPayment.value)
-    const plazo = parseInt(selectedAge.value)
-    const tasaInteres = interestRate.value
-    const tasaDecimal = tasaInteres / 100
-    const montoCredito = valorPropiedad - pie
-    const numPagos = plazo * 12
-    const interesMensual = tasaDecimal / 12
-    const dividendoMensual = montoCredito * (interesMensual / (1 - Math.pow(1 + interesMensual, -numPagos)))
-    const sueldo = dividendoMensual * 4
+   const valorPropiedad = (propertyValue.value) 
+   const pie = parseFloat(downPayment.value)
+   const plazo = parseInt(selectedAge.value)
+   const tasaInteres = interestRate.value
+   const tasaDecimal = tasaInteres / 100
+   const montoCredito = valorPropiedad - pie
+   const numPagos = plazo * 12
+   const interesMensual = tasaDecimal / 12
+   const dividendoMensual = montoCredito * (interesMensual / (1 - Math.pow(1 + interesMensual, -numPagos)))
+   const sueldo = dividendoMensual * 4
 
-    sueldoRequerido.value = sueldo.toFixed(2)
-    emit('update:sueldoRequerido', sueldoRequerido.value)
-    emit('update:rentaMinima', rentaMinima.value)
+   sueldoRequerido.value = sueldo.toFixed(2);
+
+   emit('update:sueldoRequerido', sueldoRequerido.value)
+   emit('update:rentaMinima', rentaMinima.value)
 }
 
 

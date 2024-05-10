@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="bg-body w-full h-screen p-10">
     <Suspense>
       <template #default>
         <Home />
@@ -19,7 +19,7 @@ const Home = defineAsyncComponent(() => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(import('./views/HomeView.vue'))
-    }, 3000)
+    }, 1000)
   })
 })
 </script>
