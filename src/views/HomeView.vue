@@ -5,8 +5,8 @@
         <h1 class="text-4xl md:text-5xl text-yellow-300 font-bold text-balance">Simula tu crédito con nosotros</h1>
       </div>
       <div class="w-full pb-6 px-6 md:p-4 md:w-[600px]">
-        <Form @update:sueldoRequerido="handleSueldoRequerido" @update:rentaMinima="handleRentaMinima" />
-        <Result :sueldoRequerido="sueldoRequerido" :rentaMinima="rentaMinima" />
+        <Form @update:dividend="handleDividend" @update:minimumIncome="handleMinimunIncome" />
+        <Result :dividend="dividend" :minimumIncome="minimumIncome" />
       </div>
     </div>
     <div class="w-full lg:w-[1024px] flex justify-start gap-4 md:flex-wrap md:justify-center md:overflow-hidden overflow-scroll px-6 pb-6 md:px-16 md:p-6 ">
@@ -27,26 +27,29 @@ import Modal from '@/components/Modal.vue'
 import { ref, onMounted } from 'vue'
 import { getBanks } from '@/services/banks.js'
 
+//variables
 const modal = ref(false)
 const banksList = ref({})
-const sueldoRequerido = ref(null)
-const rentaMinima = ref(null)
+const dividend = ref(null)
+const minimumIncome = ref(null)
 const selectedBank = ref()
-
+//abrir modal del banco seleccionado
 const openModal = (bank) => {
   selectedBank.value = bank
   //console.log(selectedBank.value)
   modal.value = true
 }
+//cerrar modal
 const closeModal = () => {
   modal.value = !modal.value;
 }
-const handleSueldoRequerido = (value) => {
-    sueldoRequerido.value = Number(value)
+//actualiza el valor del dividendo
+const handleDividend = (value) => {
+    dividend.value = Number(value)
 }
-
-const handleRentaMinima = (value) => {
-    rentaMinima.value = Number(value)
+//actualiza el valor del renta minima
+const handleMinimunIncome = (value) => {
+    minimumIncome.value = Number(value)
 }
 onMounted(async () => {
   banksList.value = await getBanks()

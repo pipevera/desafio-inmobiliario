@@ -1,6 +1,6 @@
 <template>
    <div>
-      <form @submit.prevent="calcularSueldo">
+      <form @submit.prevent="calculateDividend">
          <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                <label class="block mb-2 text-sm font-medium text-white ">Valor de la Propiedad</label>
@@ -12,7 +12,7 @@
             </div>
             <div>
                <label class="block mb-2 text-sm font-medium text-white">Tasa de interés (% Anual)</label>
-               <input v-model="interestRate" type="number" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+               <input v-model="annualInterestRate" type="number" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
             </div>  
             <div>
                <label class="block mb-2 text-sm font-medium text-white ">Plazo de pago (Años)</label>
@@ -38,40 +38,38 @@ const years = [
    {age: "25 años", value: 25},
    {age: "30 años", value: 30}
 ]
-
+//variables de v-model para los inputs
 const propertyValue = ref(null)
 const downPayment = ref(null)
-const interestRate = ref(5)
+const annualInterestRate = ref(5)
 const selectedAge = ref(null)
-const sueldoRequerido = ref(null)
+const dividend = ref(null)
 
-const rentaMinima = computed(() => sueldoRequerido.value * 4)
-const emit = defineEmits(['update:sueldoRequerido', 'update:rentaMinima'])
+//computed para calcular la renta minima
+const minimumIncome = computed(() => dividend.value * 4)
+//emits para crear eventos
+const emit = defineEmits(['update:dividend', 'update:minimumIncome'])
 
+//función para calcular el sueldo, contiene variables ref y variables nuevas para hacer los calculos del sueldo
+const calculateDividend = () => {
+   const UFValue = 37312.63
+   const UFPropertyValue = parseFloat(propertyValue.value)
+   const UFdown = parseFloat(downPayment.value)
+   const paymentDeadline = parseInt(selectedAge.value)
+   const interestRate = parseFloat(annualInterestRate.value)
+   const decimalRate = interestRate / 100
+   const propertyValues = UFPropertyValue * UFValue
+   const downPayments = UFdown * UFValue
+   const creditAmount = propertyValues - downPayments
+   const numPayments = paymentDeadline * 12
+   const monthlyInterest = decimalRate / 12
+   const monthlyDividend = creditAmount * (monthlyInterest / (1 - Math.pow(1 + monthlyInterest, -numPayments)))
+   const formattedMonthlyDividend = Math.round(monthlyDividend)
 
-const calcularSueldo = () => {
-   const valorUF = 37312.63
-   const valorPropiedadUF = parseFloat(propertyValue.value)
-   const pieUF = parseFloat(downPayment.value)
-   const plazo = parseInt(selectedAge.value)
-   const tasaInteres = parseFloat(interestRate.value)
-   const tasaDecimal = tasaInteres / 100
-   const valorPropiedad = valorPropiedadUF * valorUF
-   const pie = pieUF * valorUF
-
-   const montoCredito = valorPropiedad - pie
-   const numPagos = plazo * 12
-   const interesMensual = tasaDecimal / 12
-   const dividendoMensual = montoCredito * (interesMensual / (1 - Math.pow(1 + interesMensual, -numPagos)))
-   const sueldo = dividendoMensual * 4
-
-   const sueldoFormateado = Math.round(sueldo)
-
-
-   sueldoRequerido.value = sueldoFormateado;
-
-   emit('update:sueldoRequerido', sueldoRequerido.value)
-   emit('update:rentaMinima', rentaMinima.value)
+   dividend.value = formattedMonthlyDividend;
+   //emite los eventos de dividento y renta minima en el home
+   emit('update:dividend', dividend.value)
+   emit('update:minimumIncome', minimumIncome.value)
 }
 </script>
 

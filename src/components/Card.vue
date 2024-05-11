@@ -10,11 +10,10 @@
 
 <script setup>
 import { computed, onMounted } from 'vue'
-
+//props para pasar información del padre home al hijo
 const props = defineProps(["bank"])
-/* onMounted(() => {
-   console.log("Datos prop card", props.bank)
-}) */
+//computed que toma los datos de la props bank y busca el elementos que contengan imagen y retorna el objeto name, logo, si la prop no contiene imagen, devuelve el nombe y la logo
+//luego se recorre en el v-if y el v-else
 const bankData = computed(() => {
    let bank
    if(props.bank.length) {
@@ -27,6 +26,9 @@ const bankData = computed(() => {
       logo: bank.banco.imagen
    }
 })
+/* onMounted(() => {
+   console.log("Datos prop card", props.bank)
+}) */
 </script>
 
 <style scoped>

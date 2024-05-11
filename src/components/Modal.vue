@@ -31,10 +31,11 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+//props para pasar información del padre home al hijo
 const props = defineProps(["bankModal"])
-
+//computed para verificar que la data de la props sea un array, sino lo envuelve en un array
 const bankFormater = computed(() => props.bankModal.length ? props.bankModal : [props.bankModal])
-//reduce se ocupa para formatear la data para que funcione de acuerdo a como el componenente tabla
+//computed que agarra los datos de la computed anterior ya devueltos en array y retorna un nuevo objeto element con sus valores para utilizar en la tabla
 const bankDataSource = computed(() => {
    return bankFormater.value.reduce((acc, curr) => {
       const element = {
@@ -47,7 +48,8 @@ const bankDataSource = computed(() => {
       return acc = [...acc, element]
    }, [])
 })
-
+//computed donde se declara una variable bank y se evalua si la props.bankModal es mayor que 0, si es mayor a 0 se utiliza find para buscar en cada elemento propiedad llamada banco
+//y que contenga la propiedad imagen, sino se asigna props.bankModal directamente, retorna el nombre del banco
 const bankName = computed(() => {
    let bank
    if(props.bankModal.length) {
@@ -56,9 +58,8 @@ const bankName = computed(() => {
       bank = props.bankModal
    }
    return bank.banco.nombre
-   
 })
-
+//constante columns para ocupar en la tabla
 const columns = ref([
           {
             title: 'Tasa de interés',
