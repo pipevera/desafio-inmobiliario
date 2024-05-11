@@ -17,7 +17,3 @@ const props = defineProps({
    minimumIncome: Number
 })
 </script>
-
-<style scoped>
-
-</style>

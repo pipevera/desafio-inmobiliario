@@ -15,11 +15,12 @@
 import Loader from '@/components/Loader.vue'
 import { defineAsyncComponent } from 'vue';
 
+//funcion para ocupar el loader con un SetTimeOut, primero carga el fallback luego el default
 const Home = defineAsyncComponent(() => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(import('./views/HomeView.vue'))
-    }, 1000)
+    }, 2500)
   })
 })
 </script>
